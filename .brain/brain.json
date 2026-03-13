@@ -1,0 +1,169 @@
+{
+  "meta": {
+    "schema_version": "1.1.0",
+    "awf_version": "4.0.2",
+    "last_updated": "2026-03-13T19:59:48+07:00"
+  },
+  "project": {
+    "name": "Music Cover Tagger",
+    "type": "Desktop Application (Wails + React)",
+    "status": "active",
+    "description": "Ứng dụng desktop để tìm, quản lý ảnh bìa album và chỉnh sửa metadata cho bộ sưu tập nhạc"
+  },
+  "tech_stack": {
+    "backend": {
+      "language": "Go 1.24.0",
+      "framework": "Wails v2.11.0",
+      "key_libraries": [
+        "github.com/bogem/id3v2/v2 (MP3 metadata)",
+        "github.com/go-flac/go-flac (FLAC parsing)",
+        "github.com/go-flac/flacvorbis (FLAC Vorbis comments)",
+        "github.com/dhowden/tag (Metadata extraction)"
+      ]
+    },
+    "frontend": {
+      "framework": "React 18 + TypeScript",
+      "build_tool": "Vite",
+      "styling": "Tailwind CSS",
+      "animations": "Framer Motion",
+      "icons": "lucide-react"
+    },
+    "database": "None (File-based metadata)"
+  },
+  "database_schema": {
+    "type": "File-based",
+    "description": "Ứng dụng không dùng database. Metadata được lưu trực tiếp vào file MP3/FLAC tags.",
+    "supported_formats": ["MP3 (ID3v2)", "FLAC (Vorbis Comments)"]
+  },
+  "api_endpoints": [
+    {
+      "method": "GetTracks",
+      "description": "Quét thư mục và lấy danh sách bài nhạc với metadata",
+      "parameters": ["dirPath: string"],
+      "returns": "[]TrackMetadata"
+    },
+    {
+      "method": "SelectDirectory",
+      "description": "Mở dialog chọn thư mục",
+      "returns": "string (folder path)"
+    },
+    {
+      "method": "SearchCovers",
+      "description": "Tìm ảnh bìa từ internet dựa trên query",
+      "parameters": ["query: string"],
+      "returns": "[]CoverResult"
+    },
+    {
+      "method": "ApplyCover",
+      "description": "Tải và nhúng ảnh bìa vào file nhạc",
+      "parameters": ["filePath: string", "imageURL: string", "force: bool"],
+      "returns": "error"
+    },
+    {
+      "method": "UpdateMetadata",
+      "description": "Cập nhật metadata (Title, Artist, Album, Year, Genre, Comment) vào file nhạc",
+      "parameters": ["filePath, title, artist, album, year, genre, comment: string"],
+      "returns": "TrackMetadata"
+    },
+    {
+      "method": "StartAutoTagging",
+      "description": "Tự động tìm và áp dụng ảnh bìa cho danh sách bài nhạc",
+      "parameters": ["tracks: []TrackMetadata"],
+      "returns": "void"
+    }
+  ],
+  "features": [
+    {
+      "name": "Tìm ảnh bìa",
+      "status": "completed",
+      "description": "Tìm ảnh bìa chất lượng cao từ Google Images dựa trên tên bài hát/nghệ sĩ"
+    },
+    {
+      "name": "Chọn ảnh thủ công",
+      "status": "completed",
+      "description": "Giao diện modal để chọn ảnh bìa ưng ý nhất từ 5 kết quả tìm được"
+    },
+    {
+      "name": "Nhúng ảnh bìa",
+      "status": "completed",
+      "description": "Tải ảnh và nhúng vào file MP3/FLAC"
+    },
+    {
+      "name": "Chỉnh sửa Metadata thủ công (MỚI)",
+      "status": "completed",
+      "description": "Modal chỉnh sửa 6 trường metadata: Title (bắt buộc), Artist, Album, Year, Genre, Comment",
+      "implementation_details": {
+        "backend": "backend/metadata_writer.go - UpdateMetadataTags()",
+        "frontend": "MetadataEditorModal + ConfirmationDialog trong App.tsx",
+        "validation": "Title bắt buộc, các trường khác optional"
+      }
+    },
+    {
+      "name": "Auto Tag",
+      "status": "completed",
+      "description": "Tự động tìm và áp dụng ảnh bìa cho các bài nhạc chưa có cover"
+    }
+  ],
+  "business_rules": [
+    "Title là trường bắt buộc khi chỉnh sửa metadata",
+    "Các trường khác (Artist, Album, Year, Genre, Comment) là optional",
+    "Phải có xác nhận trước khi ghi đè metadata vào file",
+    "Hỗ trợ MP3 (ID3v2) và FLAC (Vorbis Comments)",
+    "Ảnh bìa được lưu trực tiếp vào file nhạc, không lưu riêng"
+  ],
+  "knowledge_items": {
+    "patterns": [
+      "Wails Bindings: Go methods được expose tự động cho frontend qua window['go']",
+      "Event-driven UI: Backend emit events (track_updated, track_processing) để frontend update state",
+      "Optional fields handling: Chỉ ghi tag nếu giá trị không rỗng"
+    ],
+    "gotchas": [
+      "FLAC metadata: Phải dùng flacvorbis package để parse/modify Vorbis comments",
+      "Type mismatch: Track interface có optional fields (year?, genre?, comment?) nhưng TrackMetadata yêu cầu string - cần map với default empty string",
+      "File locking: Phải check file writable trước khi update metadata"
+    ],
+    "conventions": [
+      "Metadata fields: TITLE, ARTIST, ALBUM, DATE (year), GENRE, COMMENT",
+      "Error handling: Trả về error message thân thiện cho user",
+      "UI feedback: Hiển thị status (processing, done, error) cho mỗi track"
+    ]
+  },
+  "recent_changes": [
+    {
+      "timestamp": "2026-03-13T19:59:00+07:00",
+      "type": "feature",
+      "description": "Thêm tính năng chỉnh sửa Metadata thủ công và cập nhật UI",
+      "files": [
+        "backend/metadata_writer.go (new)",
+        "app.go",
+        "backend/core.go",
+        "backend/metadata.go",
+        "frontend/src/App.tsx",
+        "frontend/wailsjs/go/main/App.d.ts",
+        "frontend/wailsjs/go/main/App.js",
+        "go.mod",
+        "README.md"
+      ]
+    }
+  ],
+  "decisions_made": [
+    {
+      "decision": "Sử dụng flacvorbis package cho FLAC metadata",
+      "reason": "Cung cấp API đơn giản hơn để parse và modify Vorbis comments"
+    },
+    {
+      "decision": "Title là trường bắt buộc, các trường khác optional",
+      "reason": "Đảm bảo mỗi bài nhạc có tên, các thông tin khác có thể bổ sung sau"
+    },
+    {
+      "decision": "Confirmation dialog trước khi save",
+      "reason": "Tránh ghi đè metadata vô tình, đặc biệt quan trọng vì thay đổi vĩnh viễn"
+    }
+  ],
+  "blockers": [],
+  "next_steps": [
+    "Test end-to-end metadata editing flow với file MP3 và FLAC thực tế",
+    "Xem xét thêm tính năng batch edit metadata",
+    "Tối ưu UI cho màn hình nhỏ (mobile/tablet)"
+  ]
+}

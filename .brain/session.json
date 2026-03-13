@@ -1,0 +1,107 @@
+{
+  "updated_at": "2026-03-13T19:59:48+07:00",
+  "working_on": {
+    "feature": "Manual Metadata Editor",
+    "current_phase": "phase-03",
+    "task": "Frontend Implementation & Testing",
+    "status": "completed",
+    "files": [
+      "frontend/src/App.tsx",
+      "backend/metadata_writer.go",
+      "app.go"
+    ],
+    "blockers": [],
+    "notes": "App running successfully at http://localhost:34115. Metadata editor modal fully functional with confirmation dialog."
+  },
+  "pending_tasks": [
+    {
+      "task": "End-to-end testing with real MP3/FLAC files",
+      "priority": "high",
+      "notes": "Verify metadata changes persist after app restart"
+    },
+    {
+      "task": "Batch metadata editing",
+      "priority": "medium",
+      "notes": "Future enhancement - edit multiple tracks at once"
+    },
+    {
+      "task": "Mobile/tablet UI optimization",
+      "priority": "low",
+      "notes": "Responsive design for smaller screens"
+    }
+  ],
+  "recent_changes": [
+    {
+      "timestamp": "2026-03-13T19:59:00+07:00",
+      "type": "feature",
+      "description": "Thêm tính năng chỉnh sửa Metadata thủ công và cập nhật UI",
+      "files": [
+        "backend/metadata_writer.go",
+        "app.go",
+        "backend/core.go",
+        "backend/metadata.go",
+        "frontend/src/App.tsx",
+        "frontend/wailsjs/go/main/App.d.ts",
+        "frontend/wailsjs/go/main/App.js",
+        "go.mod",
+        "README.md"
+      ]
+    },
+    {
+      "timestamp": "2026-03-13T19:58:00+07:00",
+      "type": "docs",
+      "description": "Updated README.md with Metadata Editor features",
+      "files": ["README.md"]
+    },
+    {
+      "timestamp": "2026-03-13T19:57:00+07:00",
+      "type": "fix",
+      "description": "Fixed TypeScript type mismatch in handleAutoTagAll",
+      "files": ["frontend/src/App.tsx"]
+    }
+  ],
+  "errors_encountered": [
+    {
+      "error": "TypeScript type mismatch: Track[] vs TrackMetadata[]",
+      "solution": "Added .map() to ensure optional fields have default empty string values",
+      "resolved": true,
+      "timestamp": "2026-03-13T19:57:00+07:00"
+    },
+    {
+      "error": "FLAC metadata API mismatch",
+      "solution": "Installed flacvorbis package and updated metadata_writer.go to use correct API",
+      "resolved": true,
+      "timestamp": "2026-03-13T19:45:00+07:00"
+    }
+  ],
+  "decisions_made": [
+    {
+      "decision": "Use flacvorbis package for FLAC metadata handling",
+      "reason": "Simpler API than raw go-flac for Vorbis comment manipulation",
+      "timestamp": "2026-03-13T19:45:00+07:00"
+    },
+    {
+      "decision": "Make Title field required, others optional",
+      "reason": "Ensures every track has a name; other metadata can be added incrementally",
+      "timestamp": "2026-03-13T19:30:00+07:00"
+    },
+    {
+      "decision": "Add confirmation dialog before saving metadata",
+      "reason": "Prevents accidental overwrites of file metadata",
+      "timestamp": "2026-03-13T19:30:00+07:00"
+    }
+  ],
+  "git_status": {
+    "last_commit": "cfb4a41",
+    "last_commit_message": "Thêm tính năng chỉnh sửa Metadata thủ công và cập nhật UI",
+    "branch": "main",
+    "remote": "https://github.com/skul9x/gocoverart.git",
+    "last_push": "2026-03-13T19:58:00+07:00"
+  },
+  "app_status": {
+    "running": true,
+    "dev_server_url": "http://localhost:34115",
+    "frontend_dev_url": "http://localhost:5173/",
+    "last_started": "2026-03-13T19:53:42+07:00"
+  }
+}
