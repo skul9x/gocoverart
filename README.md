@@ -1,71 +1,63 @@
 # Music Cover Tagger
 
-Ứng dụng desktop để tìm và áp dụng bìa album cho tập hợp nhạc của bạn.
+Ứng dụng desktop hiện đại để quản lý ảnh bìa và metadata cho bộ sưu tập nhạc của bạn. Được xây dựng với Go (Wails) và React.
 
-## 🎯 Tính Năng
+## 🎯 Tính Năng Chính
 
-- **Tìm ảnh bìa cao cấp**: Sử dụng engine Regex mạnh mẽ để tìm ảnh bìa chất lượng cao từ Google
-- **Hỗ trợ đa định dạng**: Hỗ trợ các định dạng âm thanh phổ biến (MP3, FLAC, WAV...)
-- **Chọn ảnh thủ công**: Giao diện modal để chọn ảnh bìa từ 5 kết quả tìm được
-- **Metadata thông minh**: Tự động lấy thông tin từ tên tệp nếu thiếu tag
-- **Giao diện hiện đại**: UI Glassmorphism với hiệu ứng Staggered animations
+- **Tìm ảnh bìa cao cấp**: Sử dụng engine thông minh để tìm ảnh bìa chất lượng cao từ internet.
+- **Chỉnh sửa Metadata thủ công (MỚI)**: 
+  - Giao diện chỉnh sửa trực quan ngay trong ứng dụng.
+  - Hỗ trợ đầy đủ các trường: **Title, Artist, Album, Year, Genre, Comment**.
+  - Validation trường Title (bắt buộc) để đảm bảo tính toàn vẹn dữ liệu.
+  - Hộp thoại xác nhận an toàn trước khi ghi đè dữ liệu vào tệp.
+- **Hỗ trợ đa định dạng**: Làm việc tốt với các tệp **MP3** và **FLAC**.
+- **Chọn ảnh thủ công**: Giao diện modal chuyên nghiệp để chọn ảnh bìa ưng ý nhất.
+- **Giao diện hiện đại**: UI Glassmorphism (hiệu ứng kính mờ) tối màu cực đẹp với các hiệu ứng chuyển động mượt mà từ Framer Motion.
+- **Metadata thông minh**: Tự động gợi ý thông tin từ tên tệp nếu tag bị thiếu.
 
 ## 🛠️ Công Nghệ
 
-- **Backend**: Go 1.24.0 + Wails v2.11.0
+- **Backend**: Go 1.24.0 + [Wails v2](https://wails.io/)
 - **Frontend**: React + TypeScript + Vite + Tailwind CSS + Framer Motion
-- **Thư viện**: id3v2, tag, flacpicture
+- **Thư viện âm thanh**: 
+  - `github.com/bogem/id3v2/v2` (MP3)
+  - `github.com/go-flac/go-flac` & `flacvorbis` (FLAC)
+  - `github.com/dhowden/tag` (Metadata extraction)
 
 ## 🚀 Cài Đặt
 
 ### Yêu cầu hệ thống:
-- Linux, macOS hoặc Windows
-- Go 1.24.0 trở lên
-- Node.js 20.x trở lên
+- Go 1.24.0+
+- Node.js 20.x+
+- Wails CLI (`go install github.com/wailsapp/wails/v2/cmd/wails@latest`)
 
-### Cách cài đặt:
+### Cách chạy:
 1. Clone repo: `git clone https://github.com/skul9x/gocoverart.git`
-2. Chạy: `go mod tidy`
-3. Cài đặt frontend: `cd frontend && npm install`
-4. Build: `wails build`
+2. Cài đặt dependency: `go mod tidy`
+3. Chạy ở chế độ phát triển:
+   ```bash
+   wails dev
+   ```
 
 ## 📦 Build Executable
 
-Để tạo file executable:
+Để tạo file ứng dụng hoàn chỉnh cho hệ điều hành của bạn:
 ```bash
 wails build
 ```
+File kết quả sẽ nằm trong thư mục `build/bin/`.
 
-File executable sẽ được tạo ở thư mục `build/bin/`
+## 📖 Hướng Dẫn Sử Dụng
 
-## 📖 Sử Dụng
-
-1. Mở ứng dụng
-2. Chọn thư mục chứa nhạc
-3. Chọn ảnh bìa từ kết quả tìm kiếm
-4. Áp dụng cho các tệp nhạc
-
-## 📁 Cấu Trúc Dự Án
-
-```
-.
-├── app.go              # Entry point của ứng dụng
-├── backend/            # Logic backend (tìm ảnh, xử lý metadata)
-├── frontend/           # Giao diện người dùng React
-├── build/              # Thư mục build
-├── docs/               # Tài liệu
-├── CHANGELOG.md        # Nhật ký thay đổi
-└── README.md           # Tài liệu này
-```
+1. **Chọn thư mục**: Nhấn "Open Library" để tải danh sách nhạc.
+2. **Tìm ảnh bìa**: Nhấp vào một bài nhạc để tìm ảnh bìa, sau đó chọn ảnh bạn thích để lưu.
+3. **Sửa thông tin**: Rê chuột vào bài nhạc, nhấn icon **Cây bút (Edit)** ở cuối dòng để sửa Title, Artist...
+4. **Auto Tag**: Sử dụng tính năng "Auto Tag Missing" để tự động tìm ảnh bìa cho các bài còn thiếu.
 
 ## 🤝 Đóng Góp
 
-1. Fork repo
-2. Tạo branch feature mới
-3. Commit thay đổi
-4. Push lên remote
-5. Tạo Pull Request
+Mọi đóng góp nhằm cải thiện ứng dụng đều được hoan nghênh. Hãy Fork repo và tạo Pull Request!
 
 ## 📄 Giấy Phép
 
-MIT License - Xem file LICENSE để biết thêm chi tiết.
+MIT License - skun9x

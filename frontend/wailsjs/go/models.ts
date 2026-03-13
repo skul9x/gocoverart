@@ -23,6 +23,9 @@ export namespace backend {
 	    album: string;
 	    hasCover: boolean;
 	    coverData: string;
+	    year: string;
+	    genre: string;
+	    comment: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new TrackMetadata(source);
@@ -36,6 +39,9 @@ export namespace backend {
 	        this.album = source["album"];
 	        this.hasCover = source["hasCover"];
 	        this.coverData = source["coverData"];
+	        this.year = source["year"];
+	        this.genre = source["genre"];
+	        this.comment = source["comment"];
 	    }
 	}
 

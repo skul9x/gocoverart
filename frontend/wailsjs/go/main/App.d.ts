@@ -13,3 +13,5 @@ export function SearchCovers(arg1:string):Promise<Array<backend.CoverResult>>;
 export function SelectDirectory():Promise<string>;
 
 export function StartAutoTagging(arg1:Array<backend.TrackMetadata>):Promise<void>;
+
+export function UpdateMetadata(arg1:string,arg2:string,arg3:string,arg4:string,arg5:string,arg6:string,arg7:string):Promise<backend.TrackMetadata>;

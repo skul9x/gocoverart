@@ -67,6 +67,21 @@ func (a *App) ApplyCover(filePath, imageURL string, force bool) error {
 	return err
 }
 
+// UpdateMetadata updates the metadata tags of an audio file
+func (a *App) UpdateMetadata(filePath, title, artist, album, year, genre, comment string) (*backend.TrackMetadata, error) {
+	err := backend.UpdateMetadataTags(filePath, title, artist, album, year, genre, comment)
+	if err != nil {
+		return nil, err
+	}
+
+	// Re-extract metadata to return updated values and notify UI
+	meta, err := backend.ExtractMetadata(filePath)
+	if err == nil {
+		runtime.EventsEmit(a.ctx, "track_updated", meta)
+	}
+	return meta, err
+}
+
 // StartAutoTagging automatically finds and applies the first cover result for all tracks in a list
 func (a *App) StartAutoTagging(tracks []backend.TrackMetadata) {
 	go func() {

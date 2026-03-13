@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Music Cover Tagger
+Comment=Find and apply album covers to your music
+Exec=/usr/local/bin/music-cover-tagger
+Icon=music-cover-tagger
+Terminal=false
+Type=Application
+Categories=Audio;AudioVideo;

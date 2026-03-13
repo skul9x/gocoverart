@@ -45,12 +45,20 @@ func ExtractMetadata(filePath string) (*TrackMetadata, error) {
 		coverData = fmt.Sprintf("data:%s;base64,%s", p.MIMEType, base64Data)
 	}
 
+	year := fmt.Sprintf("%d", m.Year())
+	if year == "0" {
+		year = ""
+	}
+
 	return &TrackMetadata{
-		FilePath: filePath,
-		Title:    title,
-		Artist:   artist,
-		Album:    album,
+		FilePath:  filePath,
+		Title:     title,
+		Artist:    artist,
+		Album:     album,
 		HasCover:  hasCover,
 		CoverData: coverData,
+		Year:      year,
+		Genre:     m.Genre(),
+		Comment:   m.Comment(),
 	}, nil
 }

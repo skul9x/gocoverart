@@ -25,3 +25,7 @@ export function SelectDirectory() {
 export function StartAutoTagging(arg1) {
   return window['go']['main']['App']['StartAutoTagging'](arg1);
 }
+
+export function UpdateMetadata(arg1, arg2, arg3, arg4, arg5, arg6, arg7) {
+  return window['go']['main']['App']['UpdateMetadata'](arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+}

@@ -12,6 +12,9 @@ type TrackMetadata struct {
 	Album     string `json:"album"`
 	HasCover  bool   `json:"hasCover"`
 	CoverData string `json:"coverData"`
+	Year      string `json:"year"`
+	Genre     string `json:"genre"`
+	Comment   string `json:"comment"`
 }
 
 // CoverResult holds found image info

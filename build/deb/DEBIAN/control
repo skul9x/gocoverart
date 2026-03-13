@@ -1,0 +1,9 @@
+Package: music-cover-tagger
+Version: 1.0.0
+Section: sound
+Priority: optional
+Architecture: amd64
+Maintainer: skul9x <skul9x@gmail.com>
+Description: Music Cover Tagger
+ Desktop application to find and apply album covers to your music collection.
+ Supports MP3, FLAC, WAV and other popular audio formats.
